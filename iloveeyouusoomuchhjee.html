@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>You Are My Universe - For Jerisa Davas</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            height: auto;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1a0033 0%, #000000 100%);
+            color: white;
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+        
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            animation: spin 30s linear infinite;
+            opacity: 0.9;
+        }
+        
+        .planet1 {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #ff6ec7, #9900cc);
+            top: 80px;
+            left: 12%;
+        }
+        
+        .planet2 {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #00eaff, #005577);
+            bottom: 120px;
+            right: 10%;
+        }
+        
+        .planet3 {
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, #ffdd00, #ff6600);
+            top: 250px;
+            right: 20%;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .message-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #f0f, #0ff, #ff0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        p {
+            font-size: 1.0rem;
+            margin: 10px 0;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(to right, #ff0080, #7928ca);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #7928ca, #ff0080);
+        }
+        
+        .letter {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #ffdee9;
+        }
+        
+        .footer {
+            position: relative;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        audio {
+            display: none;
+        }
+    </style>
+    <style>
+        .karaoke-line {
+            display: inline-block;
+            opacity: 0.3;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .karaoke-line.active {
+            opacity: 1;
+            color: #ffffff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="stars"></canvas>
+
+    <button id="toggleScrollBtn" style="
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 12px;
+  background: #222;
+  color: #ffccff;
+  border: 1px solid #555;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10;
+">Read Message</button>
+
+    <!-- 🎶 Auto-Scrolling Lyrics on the Left Side -->
+    <div id="lyricsBox" style="
+  position: fixed;
+  top: 60px;
+  left: 10px;
+  width: 280px;
+  height: 250px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.0);
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #ffccff;
+  z-index: 5;
+  box-shadow: 0 0 10px rgba(000, 000, 000, 0.0);
+">
+        <div id="lyricsContent" style="position: relative;">
+            <p style="margin: 0; line-height: 1.8;">
+                <span class='karaoke-line'>YOUR MY UNIVERSE JEE ILY</span><br><br>
+
+                <span class='karaoke-line'>To my dearest Jerisa,</span><br>
+                <span class='karaoke-line'>alam mo ba na every moment with you feels like a beautiful dream I never want to wake up from.</span><br>
+                <span class='karaoke-line'>Your smile lights up my universe brighter than any star.</span><br>
+                <span class='karaoke-line'>Thank you for loving me with such a genuine and kind heart.</span><br>
+                <span class='karaoke-line'>You inspire me to be better every single day, to do my best.</span><br>
+                <span class='karaoke-line'>Through ups and downs, your presence is my constant peace.</span><br>
+                <span class='karaoke-line'>I may not always say it perfectly, but I appreciate everything you do.</span><br>
+                <span class='karaoke-line'>You’re not just my honey,princess,gf,partner you are also my best friend, my home, and my forever.</span><br>
+                <span class='karaoke-line'>I love you endlessly, allways and always, Jerisa 💖</span><br>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="planet planet1"></div>
+    <div class="planet planet2"></div>
+    <div class="planet planet3"></div>
+    <div class="message-box">
+        <h1>You Are My Universe 🌈</h1>
+        <p>Hi Jerisa Davas, you color my galaxy with love.</p>
+        <button onclick="showLetterAndPlayMusic()">💌 Show Love Letter</button>
+        <div class="letter" id="letter">
+            <p>
+                My dearest <strong>Jerisa Davas</strong>,<br/><br/> In a universe full of stars and galaxies, your light is the one that found my heart. Every planet, every moon, every shining star reminds me of the love we share. You are my world, my
+                starlight, and my forever orbit. 💖<br/><br/> I’ll travel galaxies for you. Always and forever, <br/> Your universe 🌌
+            </p>
+            <!-- New “I Love You” Button and Message -->
+            <div style="text-align: center; margin-top: 40px;">
+                <button id="loveButton2" style="
+    padding: 12px 24px;
+    background: linear-gradient(to right, #f77062, #fe5196);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  ">I Love You</button>
+                <div id="loveLetter2" style="
+    display: none;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #ff8cc6;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(255, 105, 180, 0.4);
+    text-align: center;
+    line-height: 1.6;
+  ">
+                    Jerisa, I love you more with every galaxy we explore together. You’re my favorite adventure. 💞
+                    <<<<<<<<<<<--------nasa gilid mas magandang message hehehe </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Created with cosmic love for Jerisa 💘</div>
+        <audio id="bgMusic" loop="">
+<source src="your-universe.mp3" type="audio/mp3"/>
+    Your browser does not support the audio tag.
+  </audio>
+        <script>
+            function showLetterAndPlayMusic() {
+                document.getElementById("letter").style.display = "block";
+                const audio = document.getElementById("bgMusic");
+                audio.play().catch(err => {
+                    alert("Click anywhere to allow music playback.");
+                });
+            }
+
+            // Starfield animation
+            const canvas = document.getElementById('stars');
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            let stars = [];
+
+            function initCanvas() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+                stars = Array.from({
+                    length: 250
+                }, () => ({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    radius: Math.random() * 1.5 + 0.5,
+                    speed: Math.random() * 0.5 + 0.2
+                }));
+            }
+
+            function animateStars() {
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = "white";
+                stars.forEach(star => {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                    star.y += star.speed;
+                    if (star.y > h) {
+                        star.y = 0;
+                        star.x = Math.random() * w;
+                    }
+                });
+                requestAnimationFrame(animateStars);
+            }
+
+            window.addEventListener("resize", initCanvas);
+            initCanvas();
+            animateStars(1);
+        </script>
+        <script>
+            const loveButton2 = document.getElementById('loveButton2');
+            const loveLetter2 = document.getElementById('loveLetter2');
+
+            loveButton2.addEventListener('click', () => {
+                loveLetter2.style.display =
+                    loveLetter2.style.display === 'block' ? 'none' : 'block';
+            });
+        </script>
+
+        <script>
+            const lyricsLines = document.querySelectorAll('#lyricsContent .karaoke-line');
+            const lyricsBox = document.getElementById('lyricsBox');
+            const toggleBtn = document.getElementById('toggleScrollBtn');
+            let currentIndex = 0;
+            let isScrolling = false;
+            let scrollInterval;
+
+            function highlightLine(index) {
+                lyricsLines.forEach((line, i) => {
+                    line.classList.toggle('active', i === index);
+                });
+                const lineHeight = 26;
+                lyricsBox.scrollTop = index * lineHeight;
+            }
+
+            function scrollLyrics() {
+                if (!isScrolling) return;
+
+                highlightLine(currentIndex);
+                currentIndex++;
+                if (currentIndex >= lyricsLines.length) currentIndex = 0;
+
+                scrollInterval = setTimeout(scrollLyrics, 5000);
+            }
+
+            function toggleScroll() {
+                isScrolling = !isScrolling;
+                toggleBtn.textContent = isScrolling ? "Pause" : "Read";
+
+                if (isScrolling) {
+                    scrollLyrics();
+                } else {
+                    clearTimeout(scrollInterval);
+                }
+            }
+
+            toggleBtn.addEventListener('click', toggleScroll);
+            scrollLyrics();
+        </script>
+
+</body>
+
+</html>
